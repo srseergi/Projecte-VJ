@@ -1,4 +1,2 @@
 ﻿  TileMap.cpp
-C:\Users\soyse\Desktop\OpenGL_VS2015\2DGame\02-Bubble\02-Bubble\TileMap.cpp(94,18): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\soyse\Desktop\OpenGL_VS2015\2DGame\02-Bubble\02-Bubble\TileMap.cpp(101,30): warning C4018: '<': no coinciden signed/unsigned
-  02-Bubble.vcxproj -> C:\Users\soyse\Desktop\OpenGL_VS2015\2DGame\02-Bubble\Debug\02-Bubble.exe
+  02-Bubble.vcxproj -> C:\Users\soyse\Documents\OpenGL_VS2015\2DGame\02-Bubble\Debug\02-Bubble.exe
