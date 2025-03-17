@@ -47,21 +47,47 @@ void Scene::cameraUpdate() {
 	// Obtener la posición del jugador
 	glm::vec2 playerPos = player->getPosition();
 
-	float camX = playerPos.x - SCREEN_WIDTH / 2.0f;
-	float camY = playerPos.y - SCREEN_HEIGHT / 2.0f;
+	// Tamaño de cada tile en píxeles
+	float tileSize = map->getTileSize();
 
-	// Obtener el tamaño del mapa en píxeles
-	glm::ivec2 mapSize = map->getMapSize();
-	float maxCamX = glm::max(0.0f, float(mapSize.x) - SCREEN_WIDTH);  
-	float maxCamY = glm::max(0.0f, float(mapSize.y) - SCREEN_HEIGHT); 
+	// Tamaño del área visible en píxeles (16x16 tiles)
+	float viewWidth = 16.0f * tileSize;
+	float viewHeight = 16.0f * tileSize;
 
-	// Limitar la cámara dentro de los bordes del mapa
+	// Posición horizontal: sigue al jugador normalmente
+	float camX = playerPos.x - viewWidth / 2.0f;
+
+	// Limitar la cámara dentro de los bordes del mapa en el eje X
+	float maxCamX = map->getMapSize().x * tileSize - viewWidth;
 	camX = glm::clamp(camX, 0.0f, maxCamX);
-	camY = glm::clamp(camY, 0.0f, maxCamY);
 
-	// Actualizar la proyección con la nueva posición de la cámara
-	projection = glm::ortho(camX, camX + SCREEN_WIDTH, camY + SCREEN_HEIGHT, camY);
+	// **GESTIÓN DEL MOVIMIENTO VERTICAL DE LA CÁMARA**
+	static float currentCameraY = 0.0f; // Altura actual de la cámara
+	float targetCameraY = currentCameraY; // Altura objetivo
+
+	// Umbral para detectar una caída que debe mover la cámara
+	float thresholdDown = viewHeight * 0.4f; // 40% desde arriba
+
+	// Si el personaje cae en una nueva zona, movemos la cámara suavemente
+	if (playerPos.y > currentCameraY + viewHeight - thresholdDown) {
+		targetCameraY = playerPos.y - viewHeight * 0.6f; // Mantiene vista arriba
+	}
+
+	// Interpolación para hacer el movimiento suave
+	currentCameraY = glm::mix(currentCameraY, targetCameraY, 0.1f); // 0.1f controla la suavidad
+
+	// Limitar la cámara dentro de los bordes del mapa en el eje Y
+	float maxCamY = map->getMapSize().y * tileSize - viewHeight;
+	currentCameraY = glm::clamp(currentCameraY, 0.0f, maxCamY);
+
+	// Actualizar la proyección con la nueva posición de la cámara y el zoom
+	projection = glm::ortho(
+		camX, camX + viewWidth, // Izquierda, Derecha
+		currentCameraY + viewHeight, currentCameraY // Arriba, Abajo
+	);
 }
+
+
 
 void Scene::update(int deltaTime)
 {
