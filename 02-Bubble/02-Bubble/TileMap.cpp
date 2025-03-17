@@ -181,7 +181,7 @@ bool TileMap::collisionMoveLeft(const glm::ivec2 &pos, const glm::ivec2 &size) c
 	y0 = pos.y / tileSize;
 	y1 = (pos.y + size.y - 1) / tileSize;
 
-	std::vector<int> collidableTiles = { 66 };
+	std::vector<int> collidableTiles = { 13, 24, 35, 30, 41, 32, 43, 61 };
 
 	for(int y=y0; y<=y1; y++)
 	{
@@ -201,7 +201,7 @@ bool TileMap::collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size) 
 	y0 = pos.y / tileSize;
 	y1 = (pos.y + size.y - 1) / tileSize;
 
-	std::vector<int> collidableTiles = { 66 };
+	std::vector<int> collidableTiles = { 11, 22, 33, 29, 40, 65 };
 
 	for(int y=y0; y<=y1; y++)
 	{
@@ -221,14 +221,14 @@ bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, i
 	x1 = (pos.x + size.x - 1) / tileSize;
 	y = (pos.y + size.y - 1) / tileSize;
 
-	std::vector<int> collidableTiles = { 12, 13, 14, 48, 49, 50 };
+	std::vector<int> collidableTiles = { 6, 7, 12, 13, 14, 47, 48, 49, 50, 51, 52, 53, 54, 31, 32, 29, 30, 20, 21 };
 
 	for(int x=x0; x<=x1; x++)
 	{
 		int tile = map[y * mapSize.x + x];
 		if(std::find(collidableTiles.begin(), collidableTiles.end(), tile) != collidableTiles.end())
 		{
-			if(*posY - tileSize * y + size.y <= 4)
+			if(*posY - tileSize * y + size.y <= 6)
 			{
 				*posY = tileSize * y - size.y;
 				return true;

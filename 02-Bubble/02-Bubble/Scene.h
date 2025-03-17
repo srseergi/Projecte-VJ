@@ -20,6 +20,7 @@ public:
 	~Scene();
 
 	void init();
+	void cameraUpdate();
 	void update(int deltaTime);
 	void render();
 
@@ -28,6 +29,7 @@ private:
 
 private:
 	TileMap *map;
+	TileMap* back;
 	Player *player;
 	ShaderProgram texProgram;
 	float currentTime;

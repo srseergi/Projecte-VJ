@@ -20,6 +20,7 @@ public:
 	
 	void setTileMap(TileMap *tileMap);
 	void setPosition(const glm::vec2 &pos);
+	glm::vec2 getPosition() const { return glm::vec2(posPlayer); }
 	
 private:
 	bool bJumping;
@@ -28,7 +29,6 @@ private:
 	Texture spritesheet;
 	Sprite *sprite;
 	TileMap *map;
-
 };
 
 

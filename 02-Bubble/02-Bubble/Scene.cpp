@@ -14,12 +14,15 @@
 
 Scene::Scene()
 {
+	back = NULL;
 	map = NULL;
 	player = NULL;
 }
 
 Scene::~Scene()
 {
+	if (back != NULL)
+		delete back;
 	if(map != NULL)
 		delete map;
 	if(player != NULL)
@@ -30,6 +33,7 @@ Scene::~Scene()
 void Scene::init()
 {
 	initShaders();
+	back = TileMap::createTileMap("levels/Fondo.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 	map = TileMap::createTileMap("levels/Mapa.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
@@ -39,10 +43,31 @@ void Scene::init()
 	currentTime = 0.0f;
 }
 
+void Scene::cameraUpdate() {
+	// Obtener la posición del jugador
+	glm::vec2 playerPos = player->getPosition();
+
+	float camX = playerPos.x - SCREEN_WIDTH / 2.0f;
+	float camY = playerPos.y - SCREEN_HEIGHT / 2.0f;
+
+	// Obtener el tamaño del mapa en píxeles
+	glm::ivec2 mapSize = map->getMapSize();
+	float maxCamX = mapSize.x - SCREEN_WIDTH;
+	float maxCamY = mapSize.y - SCREEN_HEIGHT;
+
+	// Limitar la cámara dentro de los bordes del mapa
+	camX = glm::clamp(camX, 0.0f, maxCamX);
+	camY = glm::clamp(camY, 0.0f, maxCamY);
+
+	// Actualizar la proyección con la nueva posición de la cámara
+	projection = glm::ortho(camX, camX + SCREEN_WIDTH, camY + SCREEN_HEIGHT, camY);
+}
+
 void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
 	player->update(deltaTime);
+	cameraUpdate();
 }
 
 void Scene::render()
@@ -55,6 +80,7 @@ void Scene::render()
 	modelview = glm::mat4(1.0f);
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
+	back->render();
 	map->render();
 	player->render();
 }
