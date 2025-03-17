@@ -5,6 +5,8 @@
 
 #define TARGET_FRAMERATE 60.0f
 
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -38,7 +40,7 @@ int main(void)
 		return -1;
 
 	/* Create a windowed mode window and its OpenGL context */
-	window = glfwCreateWindow(SCREEN_WIDTH*2, SCREEN_HEIGHT*2, "Hello World", NULL, NULL);
+	window = glfwCreateWindow(SCREEN_WIDTH*4, SCREEN_HEIGHT*4, "Hello World", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();

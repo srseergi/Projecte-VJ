@@ -5,8 +5,8 @@
 #include "Game.h"
 
 
-#define SCREEN_X 32
-#define SCREEN_Y 16
+#define SCREEN_X 0
+#define SCREEN_Y 0
 
 #define INIT_PLAYER_X_TILES 4
 #define INIT_PLAYER_Y_TILES 10
@@ -52,8 +52,8 @@ void Scene::cameraUpdate() {
 
 	// Obtener el tamaño del mapa en píxeles
 	glm::ivec2 mapSize = map->getMapSize();
-	float maxCamX = mapSize.x - SCREEN_WIDTH;
-	float maxCamY = mapSize.y - SCREEN_HEIGHT;
+	float maxCamX = glm::max(0.0f, float(mapSize.x) - SCREEN_WIDTH);  
+	float maxCamY = glm::max(0.0f, float(mapSize.y) - SCREEN_HEIGHT); 
 
 	// Limitar la cámara dentro de los bordes del mapa
 	camX = glm::clamp(camX, 0.0f, maxCamX);

@@ -34,7 +34,7 @@ public:
 	bool collisionMoveRight(const glm::ivec2 &pos, const glm::ivec2 &size) const;
 	bool collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, int *posY) const;
 
-	glm::ivec2 getMapSize() const { return mapSize * tileSize; }
+	glm::ivec2 getMapSize() const { return glm::ivec2(mapSize.x * tileSize, mapSize.y * tileSize); }
 	
 private:
 	bool loadLevel(const string &levelFile);
