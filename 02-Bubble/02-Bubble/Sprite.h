@@ -35,6 +35,8 @@ public:
 	
 	void setPosition(const glm::vec2 &pos);
 
+	void setMirror(bool mirror) { mirrorX = mirror; }
+
 private:
 	Texture *texture;
 	ShaderProgram *shaderProgram;
@@ -46,6 +48,7 @@ private:
 	float timeAnimation;
 	glm::vec2 texCoordDispl;
 	vector<AnimKeyframes> animations;
+	bool mirrorX = false;
 
 };
 
