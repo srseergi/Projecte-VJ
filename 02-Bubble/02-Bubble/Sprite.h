@@ -36,6 +36,7 @@ public:
 	void setPosition(const glm::vec2 &pos);
 
 	void setMirror(bool mirror) { mirrorX = mirror; }
+	bool isMirrored() const;
 
 private:
 	Texture *texture;

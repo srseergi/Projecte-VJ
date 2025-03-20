@@ -70,6 +70,11 @@ void Sprite::render() const
 	glDisable(GL_TEXTURE_2D);
 }
 
+bool Sprite::isMirrored() const
+{
+	return mirrorX;
+}
+
 void Sprite::free()
 {
 	glDeleteBuffers(1, &vbo);

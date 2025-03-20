@@ -9,8 +9,8 @@ Texture::Texture()
 {
 	wrapS = GL_REPEAT;
 	wrapT = GL_REPEAT;
-	minFilter = GL_LINEAR_MIPMAP_LINEAR;
-	magFilter = GL_LINEAR_MIPMAP_LINEAR;
+	minFilter = GL_NEAREST;
+	magFilter = GL_NEAREST;
 }
 
 
@@ -40,7 +40,8 @@ bool Texture::loadFromFile(const string &filename, PixelFormat format)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, widthTex, heightTex, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 		break;
 	}
-	glGenerateMipmap(GL_TEXTURE_2D);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);  // Establece el filtro para la reducción de la textura (minificación)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	
 	return true;
 }

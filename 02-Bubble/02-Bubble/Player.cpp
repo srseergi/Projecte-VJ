@@ -12,7 +12,7 @@
 
 enum PlayerAnims
 {
-	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, JUMP, CROUCH
+	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, JUMP, CROUCH, COVER
 };
 
 
@@ -21,7 +21,7 @@ void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 	bJumping = false;
 	spritesheet.loadFromFile("images/SoaringEagleSpritesheet.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(0.125, 0.125), &spritesheet, &shaderProgram);
-	sprite->setNumberAnimations(6);
+	sprite->setNumberAnimations(7);
 	
 		sprite->setAnimationSpeed(STAND_LEFT, 8);
 		sprite->addKeyframe(STAND_LEFT, glm::vec2(0.f, 0.125f));
@@ -43,6 +43,12 @@ void Player::init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram)
 
 		sprite->setAnimationSpeed(JUMP, 8);
 		sprite->addKeyframe(JUMP, glm::vec2(0.f, 0.5f));
+
+		sprite->setAnimationSpeed(CROUCH, 8);
+		sprite->addKeyframe(CROUCH, glm::vec2(0.f, 0.5f));
+
+		sprite->setAnimationSpeed(COVER, 8);
+		sprite->addKeyframe(COVER, glm::vec2(0.f, 0.375f));
 		
 	sprite->changeAnimation(0);
 	tileMapDispl = tileMapPos;
@@ -61,6 +67,7 @@ void Player::update(int deltaTime)
 			sprite->setMirror(true);
 		}
 		posPlayer.x -= 2;
+
 		if(map->collisionMoveLeft(posPlayer, glm::ivec2(32, 32)))
 		{
 			posPlayer.x += 2;
@@ -76,6 +83,7 @@ void Player::update(int deltaTime)
 			sprite->setMirror(false);
 		}
 		posPlayer.x += 2;
+
 		if(map->collisionMoveRight(posPlayer, glm::ivec2(32, 32)))
 		{
 			posPlayer.x -= 2;
@@ -83,12 +91,34 @@ void Player::update(int deltaTime)
 			sprite->setMirror(false);
 		}
 	}
+	else if (Game::instance().getKey(GLFW_KEY_UP))
+	{
+		if (sprite->animation() != COVER)
+		{
+			sprite->changeAnimation(COVER);
+			sprite->setMirror(sprite->isMirrored());
+		}
+	}
+	else if (Game::instance().getKey(GLFW_KEY_DOWN))
+	{
+		if (sprite->animation() != CROUCH)
+		{
+			sprite->changeAnimation(CROUCH);
+			sprite->setMirror(sprite->isMirrored());
+		}
+	}
 	else
 	{
-		if(sprite->animation() == MOVE_LEFT)
+		if (sprite->isMirrored())
+		{
 			sprite->changeAnimation(STAND_LEFT);
-		else if(sprite->animation() == MOVE_RIGHT)
+			sprite->setMirror(true);  // Mirror left
+		}
+		else if (!sprite->isMirrored())
+		{
 			sprite->changeAnimation(STAND_RIGHT);
+			sprite->setMirror(false); // No mirror for right
+		}
 	}
 	
 	if(bJumping)
@@ -114,7 +144,16 @@ void Player::update(int deltaTime)
 		posPlayer.y += FALL_STEP;
 		if(map->collisionMoveDown(posPlayer, glm::ivec2(32, 32), &posPlayer.y))
 		{
-			if(Game::instance().getKey(GLFW_KEY_UP))
+			/*if (sprite->animation() != STAND_LEFT && sprite->animation() != STAND_RIGHT)
+			{
+				// Verifica la dirección en la que está mirando el jugador y cambia la animación de pie
+				if (sprite->isMirrored()) // Si está mirando hacia la izquierda
+					sprite->changeAnimation(STAND_LEFT);
+				else // Si está mirando hacia la derecha
+					sprite->changeAnimation(STAND_RIGHT);
+			}*/
+
+			if(Game::instance().getKey(GLFW_KEY_Z))
 			{
 				bJumping = true;
 				jumpAngle = 0;

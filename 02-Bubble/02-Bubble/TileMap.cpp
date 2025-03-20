@@ -141,7 +141,7 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 				texCoordTile[0] = glm::vec2(float((tile)%tilesheetSize.x) / tilesheetSize.x, float((tile)/tilesheetSize.x) / tilesheetSize.y);
 				texCoordTile[1] = texCoordTile[0] + tileTexSize;
 				//texCoordTile[0] += halfTexel;
-				texCoordTile[1] -= halfTexel;
+				//texCoordTile[1] -= halfTexel;
 				// First triangle
 				vertices.push_back(posTile.x); vertices.push_back(posTile.y);
 				vertices.push_back(texCoordTile[0].x); vertices.push_back(texCoordTile[0].y);
@@ -221,7 +221,7 @@ bool TileMap::collisionMoveDown(const glm::ivec2 &pos, const glm::ivec2 &size, i
 	x1 = (pos.x + size.x - 1) / tileSize;
 	y = (pos.y + size.y - 1) / tileSize;
 
-	std::vector<int> collidableTiles = { 6, 7, 12, 13, 14, 47, 48, 49, 50, 51, 52, 53, 54, 31, 32, 29, 30, 20, 21 };
+	std::vector<int> collidableTiles = { 6, 7, 11, 12, 13, 47, 48, 49, 50, 51, 52, 53, 54, 31, 32, 29, 30, 20, 21, 25, 26, 27 };
 
 	for(int x=x0; x<=x1; x++)
 	{
