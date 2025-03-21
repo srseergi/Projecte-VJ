@@ -6,10 +6,10 @@
 
 #define JUMP_ANGLE_STEP 4   // Salto más rápido
 #define JUMP_HEIGHT 60      // Salto más bajo
-#define FALL_STEP 4         // Caída más rápida
-#define MOVE_SPEED 1.0f     // Movimiento lateral más suave
-#define DETECTION_RADIUS 1  80  // Radio en el que sigue al jugador
-#define SPAWN_RADIUS 145      // Radio en el que el Troll aparece
+#define FALL_STEP 4        // Caída más rápida 4
+#define MOVE_SPEED 1.0f     // Movimiento lateral más suave 1.0
+#define DETECTION_RADIUS 180  // Radio en el que sigue al jugador
+#define SPAWN_RADIUS 145      // Radio en el que el Troll aparece 145
 #define DESPAWN_RADIUS 250    // Radio en el que el Troll desaparece
 
 enum TrollAnims
@@ -24,6 +24,7 @@ void Troll::init(const glm::ivec2& tileMapPos, ShaderProgram& shaderProgram)
     spritesheet.loadFromFile("images/SoaringEagleSpritesheet.png", TEXTURE_PIXEL_FORMAT_RGBA);
     sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(0.125, 0.125), &spritesheet, &shaderProgram);
     sprite->setNumberAnimations(2);
+
 
     sprite->setAnimationSpeed(IDLE, 8);
     sprite->addKeyframe(IDLE, glm::vec2(0.f, 0.125f));

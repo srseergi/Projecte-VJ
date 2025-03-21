@@ -40,8 +40,8 @@ Scene::~Scene()
 void Scene::init()
 {
 	initShaders();
-	back = TileMap::createTileMap("levels/Fondo.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
-	map = TileMap::createTileMap("levels/Mapa.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
+	back = TileMap::createTileMap("levels/VJTileMapv2._Fondo.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
+	map = TileMap::createTileMap("levels/VJTileMapv2._Mapa.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 	
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
@@ -50,22 +50,22 @@ void Scene::init()
 
 	troll1 = new Troll();
 	troll1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	troll1->setPosition(glm::vec2(19 * map->getTileSize(), 6 * map->getTileSize()));
+	troll1->setPosition(glm::vec2(17 * map->getTileSize(), 6 * map->getTileSize()));
 	troll1->setTileMap(map);
 
 	troll2 = new Troll();
 	troll2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	troll2->setPosition(glm::vec2(40 * map->getTileSize(), 5 * map->getTileSize()));
+	troll2->setPosition(glm::vec2(31 * map->getTileSize(), 2 * map->getTileSize()));
 	troll2->setTileMap(map);
 
 	troll3 = new Troll(); 
 	troll3->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	troll3->setPosition(glm::vec2(25 * map->getTileSize(), 5 * map->getTileSize()));
+	troll3->setPosition(glm::vec2(44 * map->getTileSize(), 0 * map->getTileSize()));
 	troll3->setTileMap(map);
 
 	troll4 = new Troll();  
 	troll4->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
-	troll4->setPosition(glm::vec2(30 * map->getTileSize(), 5 * map->getTileSize()));
+	troll4->setPosition(glm::vec2(52 * map->getTileSize(), 0 * map->getTileSize()));
 	troll4->setTileMap(map);
 
 
