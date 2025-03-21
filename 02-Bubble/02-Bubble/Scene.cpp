@@ -3,6 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "Scene.h"
 #include "Game.h"
+#include "Troll.h" 
 
 
 #define SCREEN_X 0
@@ -17,6 +18,8 @@ Scene::Scene()
 	back = NULL;
 	map = NULL;
 	player = NULL;
+	troll1 = NULL;
+	troll2 = NULL;
 }
 
 Scene::~Scene()
@@ -27,6 +30,10 @@ Scene::~Scene()
 		delete map;
 	if(player != NULL)
 		delete player;
+	if (troll1 != NULL) 
+		delete troll1;
+	if (troll2 != NULL) 
+		delete troll2;
 }
 
 
@@ -35,10 +42,33 @@ void Scene::init()
 	initShaders();
 	back = TileMap::createTileMap("levels/Fondo.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 	map = TileMap::createTileMap("levels/Mapa.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
+	
 	player = new Player();
 	player->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
 	player->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize(), INIT_PLAYER_Y_TILES * map->getTileSize()));
 	player->setTileMap(map);
+
+	troll1 = new Troll();
+	troll1->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	troll1->setPosition(glm::vec2(19 * map->getTileSize(), 6 * map->getTileSize()));
+	troll1->setTileMap(map);
+
+	troll2 = new Troll();
+	troll2->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	troll2->setPosition(glm::vec2(40 * map->getTileSize(), 5 * map->getTileSize()));
+	troll2->setTileMap(map);
+
+	troll3 = new Troll(); 
+	troll3->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	troll3->setPosition(glm::vec2(25 * map->getTileSize(), 5 * map->getTileSize()));
+	troll3->setTileMap(map);
+
+	troll4 = new Troll();  
+	troll4->init(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram);
+	troll4->setPosition(glm::vec2(30 * map->getTileSize(), 5 * map->getTileSize()));
+	troll4->setTileMap(map);
+
+
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH), float(SCREEN_HEIGHT), 0.f);
 	currentTime = 0.0f;
 }
@@ -67,6 +97,10 @@ void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
 	player->update(deltaTime);
+	troll1->update(deltaTime, player->getPosition());
+	troll2->update(deltaTime, player->getPosition());
+	troll3->update(deltaTime, player->getPosition());
+	troll4->update(deltaTime, player->getPosition());  
 	cameraUpdate();
 }
 
@@ -83,6 +117,10 @@ void Scene::render()
 	back->render();
 	map->render();
 	player->render();
+	troll1->render();
+	troll2->render();
+	troll3->render(); 
+	troll4->render();
 }
 
 void Scene::initShaders()
